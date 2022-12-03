@@ -77,6 +77,8 @@ const WHSendMsgMulti = (targetChannels, message, content) => {
 client.on("messageCreate", (message) => {
   // Return if sender is a bot
   if (message.author.id === client.user.id || message.author.bot) return;
+  if (message.content.startsWith(`${prefix}ignore`)) return;
+  if (JSON.parse(process.env.IGNORE_LIST).includes(message.author.id)) return;
 
   // Crosspost if the channel ID has an active webhook
   if (channelAdjList.has(message.channelId)) {
